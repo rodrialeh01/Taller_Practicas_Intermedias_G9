@@ -1,9 +1,9 @@
 const mqtt = require("mqtt");
 
-const brokerUrl = "";
+const brokerUrl = "18.232.98.71:1883";
 const options = {
-    username: "",
-    password: ""
+    username: "intermedias",
+    password: "passworddificl"
 }
 
 const client = mqtt.connect(brokerUrl, options);
@@ -16,21 +16,19 @@ const estado = async (req, res) => {
     })
 }
 
-const actualizarEstado = async (req, res) => {
-
-    const {estado} = req.body;
-
-    if (estado == "1") {
-        client.publish("tema", "1");
-        return res.status(200).json({msg: "Bombilla encendida"});
-    } else {
-        client.publish("tema", "0");
-        return res.status(200).json({msg: "Bombilla apagada"});
-    }
+const encender = async (req, res) => {
+    client.publish("Bombilla/intermedias", "1");
+    return res.status(200).json({msg: "Bombilla encendida"});
     
+}
+
+const apagar = async (req, res) => {
+    client.publish("Bombilla/intermedias", "0");
+    return res.status(200).json({msg: "Bombilla apagada"});
 }
 
 module.exports = {
     estado: estado,
-    actualizarEstado: actualizarEstado
+    encender: encender,
+    apagar: apagar
 }
