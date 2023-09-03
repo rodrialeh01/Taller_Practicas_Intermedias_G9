@@ -21,22 +21,8 @@ client.on('connect', () => {
             console.log('Suscripción exitosa al tema Bombilla/intermedias');
         }
     });
+    
 });
-
-
-const estado = (req, res) => {
-
-    if (client.connected) {
-        client.subscribe('Bombilla/intermedias', {qos: 1});
-    } else {
-        console.error('Error al conectarse al broker MQTT');
-    }
-    client.on('message', (topic, message) => {
-        const state = message.toString();
-        console.log(topic)
-        return res.status(200).json({msg: state});
-    })
-}
 
 const encender = async (req, res) => {
     client.publish("Bombilla/intermedias", "1");
@@ -50,7 +36,6 @@ const apagar = async (req, res) => {
 }
 
 module.exports = {
-    estado: estado,
     encender: encender,
     apagar: apagar
 }
