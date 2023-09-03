@@ -1,17 +1,39 @@
 const mqtt = require("mqtt");
 
-const brokerUrl = "18.232.98.71:1883";
+const brokerUrl = "mqtt://18.232.98.71:1883";
 const options = {
     username: "intermedias",
-    password: "passworddificl"
+    password: "passworddificil"
 }
+
+//mosquitto_pub -h 18.232.98.71 -p 1883 -u intermedias -P passworddificil -t Bombilla/intermedias -m 1
 
 const client = mqtt.connect(brokerUrl, options);
 
-const estado = async (req, res) => {
+client.on('connect', () => {
+    console.log('Conexión al broker MQTT exitosa');
+
+    // Suscríbete al tema desde el que deseas obtener valores
+    client.subscribe('Bombilla/intermedias', (err) => {
+        if (err) {
+            console.error('Error al suscribirse al tema:', err);
+        } else {
+            console.log('Suscripción exitosa al tema Bombilla/intermedias');
+        }
+    });
+});
+
+
+const estado = (req, res) => {
+
+    if (client.connected) {
+        client.subscribe('Bombilla/intermedias', {qos: 1});
+    } else {
+        console.error('Error al conectarse al broker MQTT');
+    }
     client.on('message', (topic, message) => {
         const state = message.toString();
-
+        console.log(topic)
         return res.status(200).json({msg: state});
     })
 }
