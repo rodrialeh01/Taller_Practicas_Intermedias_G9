@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Switch from 'react-switch';
 
-const SwitchButton = () => {
-  const [isChecked, setIsChecked] = useState(false);
+const SwitchButton = ({isChecked, setIsChecked, cliente}) => {
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
+    if(isChecked){
+      cliente.publish('Bombilla/intermedias', "1")
+    }else{
+      cliente.publish('Bombilla/intermedias', "0")
+    }
   };
 
   return (
@@ -14,7 +18,7 @@ const SwitchButton = () => {
         checked={isChecked}
         onChange={handleToggle}
         onColor="#4caf50"
-        offColor="#f44336"
+        offColor="#e30724"
         onHandleColor="#ffffff"
         offHandleColor="#ffffff"
         handleDiameter={30}
