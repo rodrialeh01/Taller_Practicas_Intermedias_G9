@@ -16,8 +16,10 @@ PubSubClient mqttClient(espClient);
 
 // const char* ssid = "COLOCATUSSID";
 // const char* password = "PASSWORD";
-const char* mqttServer = "3.91.22.95";
+const char* mqttServer = "35.211.252.155";
 int mqttPort = 1883;
+const char* user = "intermedias";
+const char* password = "passworddificil";
 
 int pinBombilla = 4;  // GPIO 2 para NodeMCU
 int fotopin = A0;
@@ -32,7 +34,7 @@ void reconnect() {
     while (!mqttClient.connected()) {
         Serial.print("Intentando conectarse a MQTT...");
 
-        if (mqttClient.connect("esp8266Client")) {
+        if (mqttClient.connect("esp8266Client", user, password)) {
             Serial.println("Conectado");
 
             mqttClient.subscribe("Bombilla/intermedias");

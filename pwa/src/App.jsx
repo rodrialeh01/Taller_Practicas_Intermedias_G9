@@ -11,7 +11,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [entry, setEntry] = useState("");
 
-  const brokerUrl = "mqtt://174.129.94.118:9001";
+  const brokerUrl = "mqtt://35.211.252.155:9001";
   const options = {
       username: "intermedias",
       password: "passworddificil"
